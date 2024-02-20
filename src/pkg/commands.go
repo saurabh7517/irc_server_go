@@ -44,6 +44,10 @@ func ProcessCommand(parameters []string) {
 }
 
 func processNick(parameters []string) {
+	//now check if the nickname exists
+	//connect to database and find out
+	//if nick name already exist return ERR_NICKNAMEINUSE
+	// if not :bar.example.com(server name) 001(RPL_WELCOME) :<message> <nick>!<user>@<host>
 
 }
 
