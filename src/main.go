@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"database/sql"
 	"errors"
 	"fmt"
 	common "irc_server/src/pkg"
@@ -9,15 +10,42 @@ import (
 	"net"
 	"os"
 	"strings"
+
+	"github.com/go-sql-driver/mysql"
 )
 
 func main() {
 	//initialize logger
 	//server init
 	common.InitAcceptableCommands()
-	initializeServer()
+	initializeDB()
+	// initializeServer()
 
-	fmt.Println(readUserInput())
+	// fmt.Println(readUserInput())
+}
+
+func initializeDB() {
+	var db *sql.DB
+	var cfg mysql.Config = mysql.Config{
+		User:   "s",
+		Passwd: "",
+		Net:    "tcp",
+		Addr:   "localhost:3306",
+		DBName: "mydb",
+	}
+
+	// Get a database handle.
+	var err error
+	db, err = sql.Open("mysql", cfg.FormatDSN())
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	pingErr := db.Ping()
+	if pingErr != nil {
+		log.Fatal(pingErr)
+	}
+	fmt.Println("Connected!")
 }
 
 func initializeServer() {
@@ -46,7 +74,6 @@ func initializeServer() {
 		}
 
 	}
-
 }
 
 func isMsgOfValidLength(msg *string) bool {
@@ -66,6 +93,7 @@ func parseIncomingMsg(msg *string) error {
 		common.ProcessCommand(stringArray)
 
 	}
+	return errors.New("temp error") //FIXME
 
 }
 
