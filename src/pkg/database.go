@@ -11,8 +11,8 @@ var db *sql.DB
 
 func initializeDB() {
 	var cfg mysql.Config = mysql.Config{
-		User:   "root",
-		Passwd: "root",
+		User:   "",
+		Passwd: "",
 		Net:    "tcp",
 		Addr:   "localhost:3306",
 		DBName: "mydb",
