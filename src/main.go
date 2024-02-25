@@ -15,6 +15,7 @@ func main() {
 	//initialize logger
 	//server init
 	common.InitAcceptableCommands()
+	common.InitializeResponseCodes()
 	// initializeDB()
 	// initializeServer()
 

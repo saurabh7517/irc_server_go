@@ -5,3 +5,7 @@ type User struct {
 	Nickname string
 	Name     string
 }
+
+type response struct {
+	code int
+}
