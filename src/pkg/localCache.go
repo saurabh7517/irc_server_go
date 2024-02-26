@@ -2,7 +2,7 @@ package common
 
 var UserMap map[string]bool = make(map[string]bool)
 
-func AddLogedInUser(nickname string) {
+func AddUserToCache(nickname string) {
 	UserMap[nickname] = true
 }
 
