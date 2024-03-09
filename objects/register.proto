@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+option go_package="irc_server/objects";
+
+message Message {
+    Command command = 1;
+    optional User user = 2;
+    HostAddress hostAddress = 3;
+    optional string token = 4;
+    optional PrivateMessage privateMsg = 5;
+}
+
+message ActiveUser {
+    repeated string username = 1;
+}
+
+message PrivateMessage {
+    string source = 1;
+    string destination = 2;
+    string message = 3;
+}
+
+
+message Response {
+    string status = 1;
+    string msg = 2;
+    string token = 3;
+}
+
+
+enum Command {
+    Unkwn = 0;
+    Ping = 1;
+    Pong = 2;
+    Reg = 3;
+    Log = 4;
+    PrivMsg = 5;
+    GrpMsg = 6;
+    ListUser = 7;
+}
+
+message User {
+    string username = 1;
+    string password = 2;
+}
+
+message HostAddress {
+    string hostIp = 1;
+    string hostPort = 2; 
+}
+
