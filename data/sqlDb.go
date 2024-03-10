@@ -58,22 +58,22 @@ func (dbConn *sqlDb) setConnection(conn *sql.DB) {
 // isUserPresent(username string) bool
 // insertUser(username string, password string) bool
 
-func (dbConn *sqlDb) getOneUser(username string, password string) (*obj.User, error) {
+func (dbConn *sqlDb) GetOneUser(username string, password string) (*obj.User, error) {
 	return nil, nil
 
 }
 
-func (dbConn *sqlDb) getUserList() []obj.User {
+func (dbConn *sqlDb) GetUserList() []obj.User {
 	return nil
 
 }
 
-func (dbConn *sqlDb) isUserPresent(username string) bool {
+func (dbConn *sqlDb) IsUserPresent(username string) bool {
 	return false
 
 }
 
-func (dbConn *sqlDb) insertUser(username string, password string) bool {
+func (dbConn *sqlDb) InsertUser(username string, password string) bool {
 	return false
 
 }

@@ -37,7 +37,7 @@ func getInMemDBConnection() *inMemDb {
 // getUserList() []obj.User
 // isUserPresent(username string) bool
 
-func (inMemData *inMemDb) getOneUser(username string, password string) (*obj.User, error) {
+func (inMemData *inMemDb) GetOneUser(username string, password string) (*obj.User, error) {
 	var foundUser *obj.User = &obj.User{}
 	for _, user := range inMemData.userList {
 		if user.Username == username && user.Password == password {
@@ -49,11 +49,11 @@ func (inMemData *inMemDb) getOneUser(username string, password string) (*obj.Use
 	return nil, errors.New("user not found")
 }
 
-func (inMemData *inMemDb) getUserList() []obj.User {
+func (inMemData *inMemDb) GetUserList() []obj.User {
 	return inMemData.userList
 }
 
-func (inMemData *inMemDb) isUserPresent(username string) bool {
+func (inMemData *inMemDb) IsUserPresent(username string) bool {
 	for _, user := range inMemData.userList {
 		if user.Username == username {
 			return true
@@ -62,6 +62,6 @@ func (inMemData *inMemDb) isUserPresent(username string) bool {
 	return false
 }
 
-func (inMemData *inMemDb) insertUser(username string, password string) bool {
+func (inMemData *inMemDb) InsertUser(username string, password string) bool {
 	return true
 }
