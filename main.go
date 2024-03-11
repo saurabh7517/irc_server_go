@@ -3,7 +3,10 @@ package main
 import (
 	"bufio"
 	"fmt"
+	data "irc_server/data"
 	obj "irc_server/objects"
+	util "irc_server/pkg"
+	register "irc_server/registration"
 	"log"
 	"net"
 	"os"
@@ -19,7 +22,8 @@ func main() {
 	//server init
 	// common.InitAcceptableCommands()
 	// common.InitializeResponseCodes()
-	// initializeDB()
+	data.InitializeDatabaseService("IN_MEM")
+
 	initializeServer()
 
 	// fmt.Println(readUserInput())
@@ -33,7 +37,7 @@ func initializeServer() {
 
 	for {
 
-		log.Println("Listening for conections...")
+		log.Println("Listening for connections...")
 		var address string = fmt.Sprintf("%v:%v", hostAddress, hostPort)
 		listener, err := net.Listen("tcp4", address)
 		if err != nil {
@@ -64,20 +68,27 @@ func initializeServer() {
 				proto.Unmarshal(dtoMsg, incomingMsg)
 
 				var outgoingMsg *obj.Message = &obj.Message{}
+				var msgBytes []byte
 
 				switch incomingMsg.Command {
 				case obj.Command_Ping:
 					outgoingMsg.Command = obj.Command_Pong
 					outgoingMsg.HostAddress = &obj.HostAddress{HostIp: hostAddress, HostPort: hostPort}
-					break
+					msgBytes = util.EncodeMessage(outgoingMsg)
+				case obj.Command_Reg:
+					log.Println(incomingMsg.HostAddress.HostIp)
+					msgBytes = register.HandleReqRes(incomingMsg)
 				default:
 					outgoingMsg.Command = obj.Command_Unkwn
 					outgoingMsg.HostAddress = &obj.HostAddress{HostIp: hostAddress, HostPort: hostPort}
+					msgBytes = util.EncodeMessage(outgoingMsg)
 				}
 
-				var msgBytes []byte = encodeMessage(outgoingMsg)
-
-				conn.Write(msgBytes)
+				x, err := conn.Write(msgBytes)
+				if err != nil {
+					log.Println(err)
+				}
+				log.Printf("Bytes written on socket connection %d \n", x)
 
 			}
 		}
@@ -91,14 +102,6 @@ func initializeServer() {
 	conn.Close()
 	listener.Close()
 	log.Println("Shut Down Complete...")
-}
-
-func encodeMessage(message *obj.Message) []byte {
-	msgBytes, err := proto.Marshal(message)
-	if err != nil {
-		log.Println("Error marshalling object")
-	}
-	return msgBytes
 }
 
 func isMsgOfValidLength(msg *string) bool {

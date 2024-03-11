@@ -1,4 +1,4 @@
-package common
+package pkg
 
 var UserMap map[string]bool = make(map[string]bool)
 
