@@ -63,5 +63,6 @@ func (inMemData *inMemDb) IsUserPresent(username string) bool {
 }
 
 func (inMemData *inMemDb) InsertUser(username string, password string) bool {
+	inMemData.userList = append(inMemData.userList, obj.User{Username: username, Password: password})
 	return true
 }
