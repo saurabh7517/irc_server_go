@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	data "irc_server/data"
+	"irc_server/login"
 	obj "irc_server/objects"
 	util "irc_server/pkg"
 	register "irc_server/registration"
@@ -78,6 +79,9 @@ func initializeServer() {
 				case obj.Command_Reg:
 					log.Println(incomingMsg.HostAddress.HostIp)
 					msgBytes = register.HandleReqRes(incomingMsg)
+				case obj.Command_Log:
+					log.Println(incomingMsg.HostAddress.HostIp)
+					msgBytes = login.HandleReqRes(incomingMsg)
 				default:
 					outgoingMsg.Command = obj.Command_Unkwn
 					outgoingMsg.HostAddress = &obj.HostAddress{HostIp: hostAddress, HostPort: hostPort}

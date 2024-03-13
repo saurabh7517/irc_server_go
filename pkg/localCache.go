@@ -1,17 +1,19 @@
 package pkg
 
-var UserMap map[string]bool = make(map[string]bool)
+import obj "irc_server/objects"
 
-func AddUserToCache(nickname string) {
-	UserMap[nickname] = true
+var UserMap map[string]obj.UserSession = make(map[string]obj.UserSession)
+
+func AddUserToCache(userSession obj.UserSession) {
+	UserMap[userSession.Username] = userSession
 }
 
-func LogoutUser(nickName string) {
-	delete(UserMap, nickName)
+func LogoutUser(username string) {
+	delete(UserMap, username)
 
 }
 
-func IsUserOnServer(nickName string) bool {
-	_, exists := UserMap[nickName]
+func IsUserOnServer(username string) bool {
+	_, exists := UserMap[username]
 	return exists
 }
